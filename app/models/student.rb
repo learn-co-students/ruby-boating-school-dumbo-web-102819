@@ -1,15 +1,15 @@
 # `Student` class:
 class Student
-
+  attr_reader :name
 
 #  * should initialize with `first_name`
     def initialize (name)
     @first_name = name
-    @@all << self
+    self.class.all << self
   end
 
   # * `Student.all` should return all of the student instances
-  @@all []
+  @@all = []
   def self.all
     @@all
   end
@@ -22,11 +22,15 @@ class Student
 
   # * `Student.find_student` will take in a first name and output the student (Object) with that name
   def self.find_student (name)
-
-
+    self.all.find{|stud|stud.first_name == name}
   end
 
     # * `Student#grade_percentage` should return the percentage of tests that the student has passed, a Float (so if a student has passed 3 / 9 tests that they've taken, this method should return the Float `33.33`)
+  def grade_percentage
+    tests =BoatingTest.all.select {|test| test.student == self}
+    passed = tests.map{|test| test.test_status == "passed"}
+    gpa = passed.count/tests.count
+  end
 
 
 end
